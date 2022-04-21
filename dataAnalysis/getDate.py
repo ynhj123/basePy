@@ -8,9 +8,13 @@ import time
 import requests
 from bs4 import BeautifulSoup
 
+# 怀孕期
 url1 = "https://www.mama.cn/ask/list/c0-l2-all-p1.html"
+# 婴儿期
 url2 = "https://www.mama.cn/ask/list/c0-l1-all-p1.html"
+# 幼儿期
 url3 = "https://www.mama.cn/ask/list/c0-l3-all-p1.html"
+# 学龄前
 url4 = "https://www.mama.cn/ask/list/c0-l4-all-p1.html"
 baseUrl = "https://www.mama.cn/ask/list/c0-l%d-all-p%d.html"
 
@@ -46,8 +50,8 @@ def save(file_path, content):
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     for i in range(1, 5):
-        for j in range(1, 5):
-            get_content(baseUrl % (i, j), (datetime.date.today() + datetime.timedelta(days=-1)).strftime("%Y-%m-%d"))
+        for j in range(1, 50):
+            get_content(baseUrl % (i, j), (datetime.date.today() + datetime.timedelta(days=-0)).strftime("%Y-%m-%d"))
             time.sleep(1)
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
