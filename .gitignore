@@ -103,4 +103,7 @@ venv.bak/
 # mypy
 .mypy_cache/
 .idea
+/.idea/
 paddle_study/data
+/opencv/imges/
+/opencv/vedios/

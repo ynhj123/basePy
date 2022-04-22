@@ -8,10 +8,12 @@ if __name__ == '__main__':
                          1996: [12.83, 0.61, 29.23, 10236.00, 0.51], 1997: [13.00, 0.63, 28.20, 12094.33, 0.44],
                          1998: [13.40, 0.75, 28.80, 13603.33, 0.58], 1999: [14.00, 0.84, 29.10, 14841.00, 1.00]},
                         index=['政府财政收入占 GDP 的比例/%', '环保投资占 GDP 的比例/%', '每千人科技人员数/人', '人均 GDP/元', '城市环境质量指数']).T
-
-    X = data[['政府财政收入占 GDP 的比例/%', '环保投资占 GDP 的比例/%', '每千人科技人员数/人']]
-    Y = data[['人均 GDP/元', '城市环境质量指数']]
-
-    dea = DEA(DMUs_Name=data.index, X=X, Y=Y)
+    print(data)
+    data = pd.read_excel('test.xlsx', index_col=0)
+    print(data)
+    # X = data[['政府财政收入占 GDP 的比例/%', '环保投资占 GDP 的比例/%', '每千人科技人员数/人']]
+    # Y = data[['人均 GDP/元', '城市环境质量指数']]
+    #
+    # dea = DEA(DMUs_Name=data.index, X=X, Y=Y)
     # dea.analysis()  # dea 分析并输出表格
-    print(dea.dea())  # dea 分析，不输出结果
+    # print(dea.dea())  # dea 分析，不输出结果
