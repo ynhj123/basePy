@@ -51,6 +51,29 @@ class DEA(object):
                                                                                                      self.Y[k][m]
         return self.Result
 
+    def __CCR_super(self):
+        for k in self.DMUs:
+            MODEL = gurobipy.Model()
+            OE, lambdas, s_negitive, s_positive = MODEL.addVar(), MODEL.addVars(self.DMUs), MODEL.addVars(self.m1), \
+                                                  MODEL.addVars(self.m2)
+            # 决策变量 Model.addVar() 和 Model.addVars()，比如说是x = MODEL.addVar(lb=0.0, ub=gurobipy.GRB.INFINITY,
+            # vtype=gurobipy.GRB.CONTINUOUS, name="")
+            MODEL.update()
+            ## 更新变量环境
+            MODEL.setObjectiveN(OE, index=0, priority=1)
+            # 添加目标函数 Model.setObjective() 和 Model.setObjectiveN(),有多个目标函数时候加N，并且index: 目标函数对应的序号 (默认 0，1，2，…),
+            # 以 index=0 作为目标函数的值, 其余值需要另外设置参数
+            MODEL.setObjectiveN(-(sum(s_negitive) + sum(s_positive)), index=1, priority=0)
+            # priority大就先算
+            MODEL.addConstrs(gurobipy.quicksum(lambdas[i] * self.X[i][j] for i in self.DMUs if i != k)
+                             + s_negitive[j] == OE * self.X[k][j] for j in range(self.m1))
+            MODEL.addConstrs(gurobipy.quicksum(lambdas[i] * self.Y[i][j] for i in self.DMUs if i != k)
+                             - s_positive[j] == self.Y[k][j] for j in range(self.m2))
+            MODEL.setParam('OutputFlag', 0)
+            MODEL.optimize()
+            self.Result.at[k, ('效益分析', '综合技术效益(CCR-super)')] = MODEL.objVal
+        return self.Result
+
     def __BCC(self):
         for k in self.DMUs:
             MODEL = gurobipy.Model()
